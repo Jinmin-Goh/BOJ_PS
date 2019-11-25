@@ -6,7 +6,9 @@
 import sys
 
 a = int(input())
-num[a + 1] = input().split()
+num = input().split()
 
-for i in len(num):
-    
+for i in range(len(num)):
+    num[i] = int(num[i])
+
+print(min(num), max(num))
