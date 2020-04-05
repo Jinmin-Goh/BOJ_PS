@@ -17,20 +17,20 @@ def main():
                 dpTable[i][j] = nums[i][j]
             else:
                 dpTable[i][j] = nums[i][j] + dpTable[i][j - 1]
-    print(nums, dpTable)
+    #print(nums, dpTable)
     k = int(input())
     for _ in range(k):
-        x1, y1, x2, y2 = map(int, sys.stdin.readline().split())
+        r1, c1, r2, c2 = map(int, sys.stdin.readline().split())
         ans = 0
-        if x1 - 1 == 0:
-            for i in range(y1 - 1, y2):
-                ans += dpTable[x2 - 1][i] - dpTable[x1 - 2][i]
-                print(ans)
+        if c1 - 1 != 0:
+            for i in range(r1 - 1, r2):
+                ans += (dpTable[i][c2 - 1] - dpTable[i][c1 - 2])
+                #print(ans)
             print(ans)
         else:
-            for i in range(y1 - 1, y2):
-                ans += dpTable[0][i]
-                print(ans)
+            for i in range(r1 - 1, r2):
+                ans += dpTable[i][c2 - 1]
+                #print(ans)
             print(ans)
     return
 
