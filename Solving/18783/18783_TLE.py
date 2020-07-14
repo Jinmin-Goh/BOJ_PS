@@ -21,26 +21,25 @@ def main():
         temp = list(reversed(change[nums[i][0] - 1:nums[i][1]]))
         change[nums[i][0] - 1:nums[i][1]] = temp
 
+    # this loop is O(n ^ 2); TLE    
+    ansTable = [ans[:]]
     while True:
-        temp = [None] * n
+        ansTable.append([None] * n)
         for i in range(n):
-            temp[change[i] - 1] = ans[i]
-        ans = temp[:]
-        #print(ans)
+            ansTable[-1][change[i] - 1] = ansTable[-2][i]
         cnt += 1
-        if ans == ref:
+        if ansTable[-1] == ansTable[0] or cnt >= k:
+            if ansTable[-1] == ansTable[0]:
+                ansTable.pop()
             break
+    if cnt >= k:
+        for i in ansTable[-1]:
+            print(i)
+        return
     
-    ans = [_ + 1 for _ in range(n)]
     k %= cnt
-    for _ in range(k):
-        temp = [None] * n
-        for i in range(n):
-            temp[change[i] - 1] = ans[i]
-        ans = temp[:]
-        #print(ans)
     
-    for i in ans:
+    for i in ansTable[k]:
         print(i)
     
     return
