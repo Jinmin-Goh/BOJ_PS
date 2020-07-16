@@ -30,26 +30,35 @@ int main(){
     char str[101];
     scanf("%s", str);
 
-    int ans = (n + 1) / 2;
-    // string checking part; NEED TO FIX
-    while(ans > 1){
-        bool flag = false;
+    int ans = n - 1;
+    // string checking part; NEED TO FIX; add one more loop
+    while(ans > 0){
+        bool sameFlag = true;  // check substring is same
+        // i is distance between two substrings
         for(int i = 1; i <= n - ans; i++){
-            int pointer = 0;
-            while(pointer < ans && str[pointer] == str[pointer + i]){
-                pointer++;
+            int p = 0;
+            printf("%d %d %d %c %c\n", ans, i, p, str[p], str[p + i]);
+            while(p < ans && str[p] == str[p + i]){
+                printf("same: %d %d %d %c %c\n", ans, i, p, str[p], str[p + i]);
+                p++;
             }
-            if(pointer == ans){
-                flag = true;
-                break;   
+            if(p != ans){   // same substring
+                sameFlag = false;   
+            }
+            else{           // different substring
+                sameFlag = true;   
+            }
+            // if two substring is same; found minimum value, break
+            if(sameFlag){
+                break;
             }
         }
-        if(!flag){
+        if(sameFlag){
             break;
         }
         ans -= 1;
     }
 
-    printf("%d", ans);
+    printf("%d", ans + 1);
     return 0;
 }
