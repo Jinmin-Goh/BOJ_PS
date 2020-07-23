@@ -27,7 +27,7 @@ using namespace std;
 int main() {
     int n, l;
     scanf("%d %d", &n, &l);
-    vector<pair<int, int>> rightMoveNums, leftMoveNums;
+    vector<pair<int, int>> rightMoveNums, leftMoveNums, nums;
     for(int i = 0; i < n; i++) {
         int temp;
         scanf("%d", &temp);
@@ -40,40 +40,25 @@ int main() {
         else {
             leftMoveNums.push_back(tempPair);
         }
+        nums.push_back(tempPair);
     }
     sort(rightMoveNums.begin(), rightMoveNums.end());
     sort(leftMoveNums.begin(), leftMoveNums.end());
-    
-    pair<int, int> tempRight = rightMoveNums.front(), tempLeft = leftMoveNums.back();
-    // both direction moving ants
-    if(rightMoveNums.size() > 0 && leftMoveNums.size() > 0) {
-        // no meeting
-        if(tempRight.first > tempLeft.first) {
-            if(tempLeft.first > l - tempRight.first) {
-                printf("%d %d", tempLeft.second, tempLeft.first);
-            }
-            else {
-                printf("%d %d", tempRight.second, l - tempRight.first);
-            }
+    sort(nums.begin(), nums.end());
+    if(leftMoveNums.size() > 0 && rightMoveNums.size() > 0) {
+        if(leftMoveNums.back().first > l - rightMoveNums.front().first) {
+            printf("%d %d", nums.at(leftMoveNums.size() - 1).second, leftMoveNums.back().first);
         }
-        // meeting occurs
         else {
-            if(tempLeft.first > l - tempRight.first) {
-                printf("%d %d", rightMoveNums.front().second, tempLeft.first);
-            }
-            else {
-                printf("%d %d", leftMoveNums.back().second, l - tempRight.first);
-            }
+            printf("%d %d", nums.at(leftMoveNums.size()).second, l - rightMoveNums.front().first);
         }
     }
-    // only right moving ants
-    else if(rightMoveNums.size() > 0) {
-        printf("%d %d", tempRight.second, l - tempRight.first);
+    else if(leftMoveNums.size() > 0) {
+        printf("%d %d", nums.back().second, leftMoveNums.back().first);
     }
-    // only left moving ants
     else {
-        printf("%d %d", tempLeft.second, tempLeft.first);
+        printf("%d %d", nums.front().second, l - rightMoveNums.front().first);
     }
-    
+
     return 0;
 }
