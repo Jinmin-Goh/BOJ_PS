@@ -28,32 +28,67 @@ int main() {
     int n, l;
     scanf("%d %d", &n, &l);
 
-    int allCows[60000][3] = {}, posCows[60000][3] = {}, negCows[60000][3] = {}, posCnt = 0, negCnt = 0;
+    vector<vector<int>> allCows, posCows, negCows;
+    int posCnt = 0, weightSum = 0, negCnt = 0;
     
     for(int i = 1; i <= n; i++) {
         int w, x, d;
+        vector<int> temp;
         scanf("%d %d %d", &w, &x, &d);
-        allCows[i][0] = w;
-        allCows[i][1] = x;
-        allCows[i][2] = d;
-        
+        temp.push_back(w);
+        temp.push_back(x);
+        temp.push_back(d);
+        allCows.push_back(temp);
+        weightSum += w;
+
         if(d > 0) {
             posCnt++;
-            posCows[posCnt][0] = w;
-            posCows[posCnt][1] = x;
-            posCows[posCnt][2] = d;
+            posCows.push_back(temp);
         }
         else {
             negCnt++;
-            negCows[negCnt][0] = w;
-            negCows[negCnt][1] = x;
-            negCows[negCnt][2] = d;
+            negCows.push_back(temp);
         }
     }
 
-    sort(allCows, allCows + n);
-    sort(posCows, posCows + posCnt);
-    sort(negCows, negCows + negCnt);
+    sort(allCows.begin(), allCows.end());
+    sort(posCows.begin(), posCows.end());
+    sort(negCows.begin(), negCows.end(), greater<vector<int>>());
+
+    // first, find target t
+    // if right moving cows are p cows, p rightmost cows will reach at right barn after L - x_i time
+    // simillary, n - p leftmost cows will reach at right barn after x_i time
+    int tempSum = 0, t = 0, posTempCnt = 0, negTempCnt = 0;
+    vector<vector<int>>::iterator posIter = posCows.begin(), negIter = negCows.begin();
+    while(tempSum < (weightSum + 1) / 2) {
+        if(posTempCnt < posCnt && negTempCnt < negCnt) {
+            if(posCows[posTempCnt][1] < l - negCows[negTempCnt][1]) {
+                tempSum += posCows[posTempCnt][0];
+                t = posCows[posTempCnt][1];
+                posTempCnt++;
+                posIter++;
+            }
+            else {
+                tempSum += negCows[negTempCnt][0];
+                t = l - negCows[negTempCnt][1];
+                negTempCnt++;
+                negIter++;
+            }
+        }
+        else if(posTempCnt < posCnt) {
+            tempSum += posCows[posTempCnt][0];
+            t = posCows[posTempCnt][1];
+            posTempCnt++;
+            posIter++;
+        }
+        else {
+            tempSum += negCows[negTempCnt][0];
+            t = l - negCows[negTempCnt][1];
+            negTempCnt++;
+            negIter++;
+        }
+    }
+    
     
 
     return 0;
