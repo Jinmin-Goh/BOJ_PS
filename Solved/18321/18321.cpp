@@ -24,8 +24,23 @@
 #include <unordered_set>
 using namespace std;
 
+int findParent(int n, int* parents) {
+    if(parents[n] == n) {
+        return n;
+    }
+    parents[n] = findParent(parents[n], parents);
+    return parents[n];
+}
+
+void unionFunc(int n1, int n2, int* parents) {
+    int r1 = findParent(n1, parents), r2 = findParent(n2, parents);
+    parents[r1] = r2;
+    return;
+}
+
 int main() {
     int n, m, cows[100010], a[100010], b[100010], w[100010];
+    vector<int> diffNode;
     vector<vector<int>> edge;
     bool flag = true;
     // parsing
@@ -34,6 +49,7 @@ int main() {
         scanf("%d", &cows[i]);
         if(cows[i] != i + 1) {
             flag = false;
+            diffNode.push_back(i + 1);
         }
     }
     for(int i = 0; i < m; i++) {
@@ -55,14 +71,32 @@ int main() {
         bool connectFlag = true;
 
         // do union(for connected components) - find(check whether all different components are connected)
+        int parents[100010] = {}, visited[100010] = {};
+        for(int i = 1; i <= n; i++) {
+            parents[i] = i;
+        }
+        for(int i = mid; i < m; i++) {
+            unionFunc(edge.at(i).at(1), edge.at(i).at(2), parents);
+        }
+
+        // check connectivity; finding process
+        vector<int>::iterator iter;
+        int tempParent = findParent(diffNode.front(), parents);
+        for(iter = diffNode.begin(); iter != diffNode.end(); iter++) {
+            if(findParent(*iter, parents) != tempParent) {
+                connectFlag = false;
+                break;
+            }
+        }
 
         if(connectFlag) {
-            left = mid + 1;
+            left = mid;
         }
         else {
-            right = mid;
+            right = mid - 1;
         }
     }
+    printf("%d", edge.at(left).at(0));
     
     return 0;
 }
