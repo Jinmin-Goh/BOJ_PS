@@ -7,28 +7,23 @@ import sys
 
 def main():
     n = int(input())
-    if (int(n ** 0.5)) ** 2 == n:
-        print(1)
-        return
-    for i in reversed(range(1, int(n ** 0.5) + 1)):
-        if i ** 2 < n // 2:
+    nList = [4 for _ in range(50001)]
+    for i in range(1, int(50000 ** 0.5) + 1):
+        if i ** 2 > 50000:
             break
-        temp = n - i ** 2
-        if (int(temp ** 0.5)) ** 2 == temp:
-            print(2)
-            return
-    for i in reversed(range(1, int(n ** 0.5) + 1)):
-        if i ** 2 < n // 2:
-            break
-        temp1 = n - i ** 2
-        for j in reversed(range(1, int(temp1 ** 0.5) + 1)):
-            if j ** 2 < temp1 // 2:
+        nList[i ** 2] = 1
+    for i in range(1, int(50000 ** 0.5) + 1):
+        for j in range(1, int(50000 ** 0.5) + 1):
+            if i ** 2 + j ** 2 > 50000:
                 break
-            temp2 = temp1 - j ** 2
-            if (int(temp2 ** 0.5)) ** 2 == temp2:
-                print(3)
-                return
-    print(4)
+            nList[i ** 2 + j ** 2] = min(nList[i ** 2 + j ** 2], 2)
+    for i in range(1, int(50000 ** 0.5) + 1):
+        for j in range(1, int(50000 ** 0.5) + 1):
+            for k in range(1, int(50000 ** 0.5) + 1):
+                if i ** 2 + j ** 2 + k ** 2 > 50000:
+                    break
+                nList[i ** 2 + j ** 2 + k ** 2] = min(nList[i ** 2 + j ** 2 + k ** 2], 3)
+    print(nList[n])
     return
     
 if __name__ == "__main__":
