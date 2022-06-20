@@ -10,13 +10,17 @@ def main():
     words = sys.stdin.readline().split()
     words = list(reversed(words))
     cnt = 0
+    ans = ""
     while words:
         temp = words.pop()
         if cnt + len(temp) > k:
-            print("")
+            print(ans[:-1])
             cnt = 0
+            ans = ""
         cnt += len(temp)
-        print(temp, end = " ")
+        ans += temp + " "
+    if ans:
+        print(ans[:-1])
     return
 
 if __name__ == "__main__":
