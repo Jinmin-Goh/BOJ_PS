@@ -19,7 +19,7 @@ def main():
     nums = []
     for i in range(n):
         nums.append(int(input()))
-    maxVal = max(nums)
+    maxVal = 50
     dpList = [(-1, -1)] * (maxVal + 1)
     dpList[0] = (1, 0)
     dpList[1] = (0, 1)
