@@ -38,19 +38,13 @@ def main():
             dots[i][2] = dots[i][0] - dot[0]
             dots[i][3] = dots[i][1] - dot[1]
         dots.sort(key=functools.cmp_to_key(comp))
-        cnt = 0
+        cnt = n - 2
         dots = list(reversed(dots[:-1]))
-        flag = False
         print(dot[4], end=' ')
-        while ccw(dot, dots[cnt], dots[cnt + 1]) == 0:
-            flag = True
-            print(dots[cnt][4], end=' ')
-            cnt += 1
-        if flag:
-            print(dots[cnt][4], end=' ')
-            cnt += 1
-        temp = list(reversed(dots[cnt:]))
-        for _, _, _, _, i in temp:
+        while ccw(dot, dots[cnt], dots[cnt - 1]) == 0:
+            cnt -= 1
+        dots = dots[:cnt] + list(reversed(dots[cnt:]))
+        for _, _, _, _, i in dots:
             print(i, end=' ')
         print()
     return
