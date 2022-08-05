@@ -10,15 +10,13 @@ def main():
     nums = list(map(int, sys.stdin.readline().split()))
     queue = []
     ans = 0
-    diff = 0
-    heapq.heappush(queue, -nums[0])
-    for i in range(1, n):
+    for i in range(n):
+        heapq.heappush(queue, -(nums[i] - i))
         end = -queue[0] + i
         if nums[i] <= end:
             ans += end - nums[i]
             heapq.heappop(queue)
             heapq.heappush(queue, -(nums[i] - i))
-        heapq.heappush(queue, -(nums[i] - i))
     print(ans)
     return
 
