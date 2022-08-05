@@ -15,8 +15,8 @@ def main():
         end = -queue[0] + i
         if nums[i] <= end:
             ans += end - nums[i]
-            heapq.heappop(queue)
-            heapq.heappush(queue, -(nums[i] - i))
+        heapq.heappop(queue)
+        heapq.heappush(queue, -(nums[i] - i))
     print(ans)
     return
 
